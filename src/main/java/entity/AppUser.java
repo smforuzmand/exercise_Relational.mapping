@@ -2,6 +2,7 @@ package entity;
 
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -18,15 +19,29 @@ public class AppUser {
     @Column(length = 255, nullable = false)
     private String password;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId")
     private Address address;
 
+
+    @OneToMany(cascade = CascadeType.PERSIST , mappedBy = "owner")
+    Collection<Car> ownedCars;
+
+
+
     public AppUser() {
+
     }
 
     public AppUser(int userId, String email, String name, String password, Address address) {
         this.userId = userId;
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.address = address;
+    }
+
+    public AppUser(String email, String name, String password, Address address) {
         this.email = email;
         this.name = name;
         this.password = password;

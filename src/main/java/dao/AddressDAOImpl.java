@@ -1,11 +1,22 @@
 package dao;
 
 import entity.Address;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
+@Component
 public class AddressDAOImpl implements AddressDAOs{
+
+
+    @PersistenceContext
+    EntityManager entityManager;
+
     @Override
     public Address save(Address address) {
         return null;

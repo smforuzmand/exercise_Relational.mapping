@@ -1,20 +1,25 @@
 package entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
 @Entity
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int addressId;
-    @Column(length = 255 , nullable = false)
+    @Column(length = 255, nullable = false)
     private String street;
     @Column(length = 255, nullable = false, unique = true)
     private String zipCode;
     @Column(nullable = false)
     private String city;
 
+    @OneToOne(mappedBy = "address" , cascade = CascadeType.PERSIST)
+    private AppUser appUser;
 
 
     public Address() {
@@ -26,6 +31,13 @@ public class Address {
         this.zipCode = zipCode;
         this.city = city;
     }
+
+//    public void addAppUser(AppUser appUser) {
+//        if (appUser == null) throw new IllegalArgumentException("appUser is null");
+//        if (listAppUsers == null) listAppUsers = new ArrayList<>();
+//        listAppUsers.add(appUser);
+//        appUser.setAddress(this);
+//    }
 
     public int getAddressId() {
         return addressId;

@@ -32,7 +32,6 @@ public class AppUser {
     public AppUser() {
 
     }
-
     public AppUser(int userId, String email, String name, String password, Address address) {
         this.userId = userId;
         this.email = email;

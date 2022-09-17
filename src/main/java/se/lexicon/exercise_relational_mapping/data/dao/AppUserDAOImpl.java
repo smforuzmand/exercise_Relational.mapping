@@ -1,11 +1,10 @@
-package dao;
+package se.lexicon.exercise_relational_mapping.data.dao;
 
-import entity.AppUser;
+import se.lexicon.exercise_relational_mapping.entity.AppUser;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.exercise_relational_mapping.EntityNotFoundException;
+import se.lexicon.exercise_relational_mapping.extensions.EntityNotFoundException;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -21,7 +20,7 @@ public class AppUserDAOImpl implements AppUserDAOs {
     @PersistenceContext
     EntityManager entityManager;
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public AppUser save(AppUser appUser) {
 
@@ -30,7 +29,7 @@ public class AppUserDAOImpl implements AppUserDAOs {
         return appUser;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public Optional<AppUser> findById(int id) {
 if (id<=0) throw new IllegalArgumentException("Invalid Id");
@@ -38,7 +37,7 @@ if (id<=0) throw new IllegalArgumentException("Invalid Id");
         return Optional.ofNullable(user);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<AppUser> findAll() {
         Query query = entityManager.createQuery("SELECT a FROM AppUser a");
@@ -46,11 +45,12 @@ if (id<=0) throw new IllegalArgumentException("Invalid Id");
         return query.getResultList();
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = EntityNotFoundException.class)
     @Override
     public void remove(AppUser appUser) {
-        findById(appUser.getUserId()).orElseThrow(() -> new EntityNotFoundException("data not found"));
 
+        findById(appUser.getUserId()).orElseThrow(() -> new EntityNotFoundException("data not found"));
+        entityManager.remove(appUser);
     }
 
     @Transactional

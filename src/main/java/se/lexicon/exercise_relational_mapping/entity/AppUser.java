@@ -1,4 +1,4 @@
-package entity;
+package se.lexicon.exercise_relational_mapping.entity;
 
 
 import javax.persistence.*;

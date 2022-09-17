@@ -1,7 +1,9 @@
-package entity;
+package se.lexicon.exercise_relational_mapping.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -11,7 +13,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int carId;
 
-    @Column(length = 250,nullable = false, unique = true)
+    @Column(length = 250, nullable = false, unique = true)
     private String regNumber;
     @Column(length = 250, nullable = false)
     private String brand, model;
@@ -22,12 +24,37 @@ public class Car {
     @JoinColumn(name = "userId")
     private AppUser owner;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "car_status", joinColumns = @JoinColumn(name = "car_id")
+            , inverseJoinColumns = @JoinColumn(name = "status_id"))
+
+    private Collection<Status> statusCode=new ArrayList<>();
+
+    //Convenience methods added
+
+    public void addStatus(Status status) {
+
+        if (!statusCode.contains(status)) {
+            statusCode.add(status);
+        }
+    }
+
+    public void removeStatus(Status status) {
+        if (statusCode.contains(status)) {
+            statusCode.remove(status);
+        }
+    }
+
+
+
 
 
     public Car() {
     }
 
-    public Car(String regNumber, String brand, String model, LocalDate regDate, AppUser owner) {
+    public Car(String regNumber,String brand,String model,LocalDate regDate,AppUser owner)
+
+    {
         this.regNumber = regNumber;
         this.brand = brand;
         this.model = model;

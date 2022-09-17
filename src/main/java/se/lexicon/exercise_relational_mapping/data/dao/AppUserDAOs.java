@@ -1,6 +1,6 @@
-package dao;
+package se.lexicon.exercise_relational_mapping.data.dao;
 
-import entity.AppUser;
+import se.lexicon.exercise_relational_mapping.entity.AppUser;
 
 import java.util.List;
 import java.util.Optional;

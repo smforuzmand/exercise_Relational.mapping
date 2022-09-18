@@ -3,7 +3,6 @@ package se.lexicon.exercise_relational_mapping.data.dao;
 import se.lexicon.exercise_relational_mapping.entity.AppUser;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.exercise_relational_mapping.extensions.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -45,11 +44,11 @@ if (id<=0) throw new IllegalArgumentException("Invalid Id");
         return query.getResultList();
     }
 
-    @Transactional(noRollbackFor = EntityNotFoundException.class)
+    @Transactional(noRollbackFor = RuntimeException.class)
     @Override
     public void remove(AppUser appUser) {
 
-        findById(appUser.getUserId()).orElseThrow(() -> new EntityNotFoundException("data not found"));
+        findById(appUser.getUserId()).orElseThrow(() -> new IllegalArgumentException("data not found"));
         entityManager.remove(appUser);
     }
 

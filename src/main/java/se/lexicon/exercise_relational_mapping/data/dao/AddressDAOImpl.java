@@ -3,7 +3,6 @@ package se.lexicon.exercise_relational_mapping.data.dao;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.exercise_relational_mapping.entity.Address;
 import org.springframework.stereotype.Repository;
-import se.lexicon.exercise_relational_mapping.extensions.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -63,7 +62,7 @@ public class AddressDAOImpl implements AddressDAOs {
 
     }
 
-    @Transactional(rollbackFor = EntityNotFoundException.class)
+    @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public void delete(Address address) {
         findByAddressId(address.getAddressId()).orElseThrow(() -> new IllegalArgumentException("OPEN EYES"));
